@@ -1,4 +1,3 @@
-
 elfCalories = []
 
 with open('input', 'r') as input:
@@ -11,7 +10,6 @@ with open('input', 'r') as input:
         elfCalories.append(calories)
 
 print("top elf: " + str(max(elfCalories)))
-
 
 elfCalories.sort(reverse=True)
 print("top three elves total is: "+ str(elfCalories[0]+elfCalories[1]+elfCalories[2]))
