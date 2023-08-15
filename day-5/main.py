@@ -8,21 +8,39 @@ def readInputintoStacks(fileName):
                 parsedLine.append(head[i][j])
             parsedArray.append(parsedLine)
         stackList = []
-        for i in range(0, 8):
+        for i in range(0, 9):
             letterStack = []
             for chars in parsedArray:
                 if chars[i].isalpha():
                     letterStack.append(chars[i])
+            letterStack.reverse()
             stackList.append(letterStack)
         return stackList
 
+def getInstructions(fileName):
+    with open(fileName, 'r') as input:
+        instructions = input.readlines()[10:]
+        instructions = [x.strip('\n').removeprefix('move ').replace(' from ', ' ').replace(' to ', ' ') for x in instructions]
+        instructions = [x.split(' ') for x in instructions]
+        instructions = [list( map(int,i) ) for i in instructions]
+        return instructions
 
+def applyInstructionToStack(letterStacks, instructions):
+    for instruction in instructions:
+        for i in range(instruction[0]):
+            if letterStacks[instruction[1]-1] != []:
+                letterStacks[instruction[2]-1].append(letterStacks[instruction[1]-1].pop())
 
-
-
+def getCratesOnTop(letterStacks):
+    out = ''
+    for stack in letterStacks:
+        out += stack[-1]
+    return out
 
 def main():
     letterStacks = readInputintoStacks('input')
-    print(letterStacks)
+    instructions = getInstructions('input')
+    applyInstructionToStack(letterStacks, instructions)
+    print(getCratesOnTop(letterStacks))
 
 main()
