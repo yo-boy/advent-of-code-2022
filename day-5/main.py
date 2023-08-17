@@ -31,6 +31,17 @@ def applyInstructionToStack(letterStacks, instructions):
             if letterStacks[instruction[1]-1] != []:
                 letterStacks[instruction[2]-1].append(letterStacks[instruction[1]-1].pop())
 
+def applyUpdatedInstructions(letterStacks, instructions):
+    for instruction in instructions:
+        operations = int(instruction[0])
+        stackFrom = int(instruction[1]-1)
+        stackTo = int(instruction[2]-1)
+        if (operations > len(letterStacks[stackFrom])):
+            operations = len(letterStacks[stackFrom])
+        crates = letterStacks[stackFrom][-operations:]
+        del letterStacks[stackFrom][-operations:]
+        letterStacks[stackTo].extend(crates)
+
 def getCratesOnTop(letterStacks):
     out = ''
     for stack in letterStacks:
@@ -41,6 +52,9 @@ def main():
     letterStacks = readInputintoStacks('input')
     instructions = getInstructions('input')
     applyInstructionToStack(letterStacks, instructions)
+    print(getCratesOnTop(letterStacks))
+    letterStacks = readInputintoStacks('input')
+    applyUpdatedInstructions(letterStacks, instructions)
     print(getCratesOnTop(letterStacks))
 
 main()
